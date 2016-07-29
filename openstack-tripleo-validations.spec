@@ -10,10 +10,13 @@ URL:            http://tripleo.org
 Source0:        http://tarballs.openstack.org/tripleo-validations/tripleo-validations-%{version}.tar.gz
 
 BuildArch:      noarch
-BuildRequires:  python-pbr
-BuildRequires:  python-setuptools
 BuildRequires:  git
-Requires: ansible >= 2
+BuildRequires:  python-setuptools
+BuildRequires:  python2-devel
+BuildRequires:  python-pbr
+BuildRequires:  python-sphinx
+BuildRequires:  python-oslo-sphinx
+Requires:       ansible >= 2
 
 Provides:  tripleo-validations = %{version}-%{release}
 Obsoletes: tripleo-validations < %{version}-%{release}
@@ -32,9 +35,21 @@ rm -rf {test-,}requirements.txt
 %install
 %{__python2} setup.py install -O1 --skip-build --root=%{buildroot}
 
+# Documentation
+sphinx-build -b html doc/source doc/build/html
+install -d -m 755 %{buildroot}%{_datadir}/doc/%{name}/html
+cp -r doc/build/html/* %{buildroot}%{_datadir}/doc/%{name}/html
+
 %description
 A collection of Ansible playbooks to detect and report potential issues during
 TripleO deployments.
+
+%package -n openstack-tripleo-validations-tests
+Summary:        Tests for TripleO validations
+Requires:       openstack-tripleo-validations = %{version}-%{release}
+
+%description -n openstack-tripleo-validations-tests
+This package contains the tripleo-validations test files.
 
 %files
 %license LICENSE
@@ -42,6 +57,10 @@ TripleO deployments.
 %{python2_sitelib}/tripleo_validations*
 %exclude %{python2_sitelib}/tripleo_validations/test*
 %{_datadir}/%{name}
+%{_defaultdocdir}/%{name}
+
+%files -n openstack-tripleo-validations-tests
+%license LICENSE
+%{python2_sitelib}/tripleo_validations/tests
 
 %changelog
-
