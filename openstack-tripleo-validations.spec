@@ -47,7 +47,8 @@ TripleO deployments.
 
 %package -n openstack-tripleo-validations-tests
 Summary:        Tests for TripleO validations
-Requires:       openstack-tripleo-validations = %{version}-%{release}
+Requires:       %{name} = %{version}-%{release}
+Requires:       python-netaddr
 
 %description -n openstack-tripleo-validations-tests
 This package contains the tripleo-validations test files.
