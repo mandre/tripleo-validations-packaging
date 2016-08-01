@@ -1,5 +1,6 @@
 %{!?upstream_version: %global upstream_version %{version}}
 %global upstream_name tripleo-validations
+%global with_doc %{!?_without_doc:1}%{?_without_doc:0}
 
 Name:           openstack-tripleo-validations
 Summary:        Ansible playbooks to detect potential issues with TripleO deployments
@@ -36,10 +37,15 @@ rm -rf {test-,}requirements.txt
 %install
 %{__python2} setup.py install -O1 --skip-build --root=%{buildroot}
 
-# Documentation
-sphinx-build -b html doc/source doc/build/html
-install -d -m 755 %{buildroot}%{_datadir}/doc/%{name}/html
-cp -r doc/build/html/* %{buildroot}%{_datadir}/doc/%{name}/html
+# docs generation
+export PYTHONPATH="$( pwd ):$PYTHONPATH"
+pushd doc
+%if 0%{?with_doc}
+SPHINX_DEBUG=1 sphinx-build -b html source build/html
+# Fix hidden-file-or-dir warnings
+rm -fr build/html/.doctrees build/html/.buildinfo
+%endif
+popd
 
 %check
 %{__python2} setup.py testr
