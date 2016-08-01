@@ -41,6 +41,9 @@ sphinx-build -b html doc/source doc/build/html
 install -d -m 755 %{buildroot}%{_datadir}/doc/%{name}/html
 cp -r doc/build/html/* %{buildroot}%{_datadir}/doc/%{name}/html
 
+%check
+%{__python2} setup.py testr
+
 %description
 A collection of Ansible playbooks to detect and report potential issues during
 TripleO deployments.
