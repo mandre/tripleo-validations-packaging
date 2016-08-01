@@ -25,7 +25,6 @@ Obsoletes: tripleo-validations < %{version}-%{release}
 
 %prep
 %autosetup -n %{upstream_name}-%{upstream_version} -S git
-rm -rf *.egg-info
 
 # Remove the requirements file so that pbr hooks don't add it
 # to distutils requires_dist config
