@@ -42,6 +42,7 @@ BuildRequires:  python-testrepository
 BuildRequires:  python-testscenarios
 BuildRequires:  python-testtools
 BuildRequires:  python-netaddr
+BuildRequires:  ansible >= 2
 
 Requires:       python-hacking
 Requires:       python-coverage
@@ -53,6 +54,7 @@ Requires:       python-testrepository
 Requires:       python-testscenarios
 Requires:       python-testtools
 Requires:       python-netaddr
+Requires:       ansible >= 2
 
 %description -n openstack-tripleo-validations-tests
 This package contains the tripleo-validations test files.
