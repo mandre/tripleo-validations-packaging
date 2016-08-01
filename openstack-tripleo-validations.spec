@@ -89,6 +89,7 @@ popd
 %doc doc/build/html
 %{python2_sitelib}/tripleo_validations*
 %{python2_sitelib}/*-*.egg-info
+%{_datadir}/%{name}
 %exclude %{python2_sitelib}/tripleo_validations/test*
 
 %files -n openstack-tripleo-validations-tests
