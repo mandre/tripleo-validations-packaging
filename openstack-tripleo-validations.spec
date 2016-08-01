@@ -17,6 +17,8 @@ BuildRequires:  python-pbr
 BuildRequires:  python-sphinx
 BuildRequires:  python-oslo-sphinx
 Requires:       ansible >= 2
+Requires:       python-pbr
+Requires:       python-setuptools
 
 Provides:  tripleo-validations = %{version}-%{release}
 Obsoletes: tripleo-validations < %{version}-%{release}
