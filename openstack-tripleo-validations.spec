@@ -57,6 +57,27 @@ TripleO deployments.
 %package -n openstack-tripleo-validations-tests
 Summary:        Tests for TripleO validations
 Requires:       %{name} = %{version}-%{release}
+
+BuildRequires:  python-hacking
+BuildRequires:  python-coverage
+BuildRequires:  python-subunit
+BuildRequires:  python-sphinx
+BuildRequires:  python-oslo-sphinx
+BuildRequires:  python-oslotest
+BuildRequires:  python-testrepository
+BuildRequires:  python-testscenarios
+BuildRequires:  python-testtools
+BuildRequires:  python-netaddr
+
+Requires:       python-hacking
+Requires:       python-coverage
+Requires:       python-subunit
+Requires:       python-sphinx
+Requires:       python-oslo-sphinx
+Requires:       python-oslotest
+Requires:       python-testrepository
+Requires:       python-testscenarios
+Requires:       python-testtools
 Requires:       python-netaddr
 
 %description -n openstack-tripleo-validations-tests
