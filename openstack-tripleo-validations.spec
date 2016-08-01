@@ -24,32 +24,6 @@ Requires:       python-setuptools
 Provides:  tripleo-validations = %{version}-%{release}
 Obsoletes: tripleo-validations < %{version}-%{release}
 
-%prep
-%autosetup -n %{upstream_name}-%{upstream_version} -S git
-
-# Remove the requirements file so that pbr hooks don't add it
-# to distutils requires_dist config
-rm -rf {test-,}requirements.txt
-
-%build
-%{__python2} setup.py build
-
-%install
-%{__python2} setup.py install -O1 --skip-build --root=%{buildroot}
-
-# docs generation
-export PYTHONPATH="$( pwd ):$PYTHONPATH"
-pushd doc
-%if 0%{?with_doc}
-SPHINX_DEBUG=1 sphinx-build -b html source build/html
-# Fix hidden-file-or-dir warnings
-rm -fr build/html/.doctrees build/html/.buildinfo
-%endif
-popd
-
-%check
-%{__python2} setup.py testr
-
 %description
 A collection of Ansible playbooks to detect and report potential issues during
 TripleO deployments.
@@ -82,6 +56,32 @@ Requires:       python-netaddr
 
 %description -n openstack-tripleo-validations-tests
 This package contains the tripleo-validations test files.
+
+%prep
+%autosetup -n %{upstream_name}-%{upstream_version} -S git
+
+# Remove the requirements file so that pbr hooks don't add it
+# to distutils requires_dist config
+rm -rf {test-,}requirements.txt
+
+%build
+%{__python2} setup.py build
+
+%install
+%{__python2} setup.py install -O1 --skip-build --root=%{buildroot}
+
+# docs generation
+export PYTHONPATH="$( pwd ):$PYTHONPATH"
+pushd doc
+%if 0%{?with_doc}
+SPHINX_DEBUG=1 sphinx-build -b html source build/html
+# Fix hidden-file-or-dir warnings
+rm -fr build/html/.doctrees build/html/.buildinfo
+%endif
+popd
+
+%check
+%{__python2} setup.py testr
 
 %files
 %license LICENSE
