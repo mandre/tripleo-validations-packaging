@@ -65,10 +65,10 @@ This package contains the tripleo-validations test files.
 %files
 %license LICENSE
 %doc README.rst AUTHORS ChangeLog
+%doc doc/build/html
 %{python2_sitelib}/tripleo_validations*
+%{python2_sitelib}/*-*.egg-info
 %exclude %{python2_sitelib}/tripleo_validations/test*
-%{_datadir}/%{name}
-%{_defaultdocdir}/%{name}
 
 %files -n openstack-tripleo-validations-tests
 %license LICENSE
