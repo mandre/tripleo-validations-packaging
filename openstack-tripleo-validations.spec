@@ -74,13 +74,11 @@ rm -rf {test-,}requirements.txt
 
 # docs generation
 export PYTHONPATH="$( pwd ):$PYTHONPATH"
-pushd doc
 %if 0%{?with_doc}
-SPHINX_DEBUG=1 sphinx-build -b html source build/html
+SPHINX_DEBUG=1 sphinx-build -b html doc/source doc/build/html
 # Fix hidden-file-or-dir warnings
-rm -fr build/html/.doctrees build/html/.buildinfo
+rm -fr doc/build/html/.doctrees doc/build/html/.buildinfo
 %endif
-popd
 
 %check
 %{__python2} setup.py testr
