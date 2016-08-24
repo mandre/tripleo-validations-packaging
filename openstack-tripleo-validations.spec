@@ -73,6 +73,8 @@ rm -rf {test-,}requirements.txt
 %{__python2} setup.py install -O1 --skip-build --root=%{buildroot}
 
 # docs generation
+# FIXME(mandre) HTML doc produces too many files due to static assets. We need
+# a doc subpackage.
 export PYTHONPATH="$( pwd ):$PYTHONPATH"
 %if 0%{?with_doc}
 SPHINX_DEBUG=1 sphinx-build -b html doc/source doc/build/html
