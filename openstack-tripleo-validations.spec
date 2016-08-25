@@ -15,8 +15,6 @@ BuildRequires:  git
 BuildRequires:  python-setuptools
 BuildRequires:  python2-devel
 BuildRequires:  python-pbr
-BuildRequires:  python-sphinx
-BuildRequires:  python-oslo-sphinx
 Requires:       ansible >= 2
 Requires:       python-pbr
 Requires:       python-setuptools
@@ -32,11 +30,8 @@ TripleO deployments.
 Summary:        Tests for TripleO validations
 Requires:       %{name} = %{version}-%{release}
 
-BuildRequires:  python-hacking
 BuildRequires:  python-coverage
 BuildRequires:  python-subunit
-BuildRequires:  python-sphinx
-BuildRequires:  python-oslo-sphinx
 BuildRequires:  python-oslotest
 BuildRequires:  python-testrepository
 BuildRequires:  python-testscenarios
@@ -44,11 +39,8 @@ BuildRequires:  python-testtools
 BuildRequires:  python-netaddr
 BuildRequires:  ansible >= 2
 
-Requires:       python-hacking
 Requires:       python-coverage
 Requires:       python-subunit
-Requires:       python-sphinx
-Requires:       python-oslo-sphinx
 Requires:       python-oslotest
 Requires:       python-testrepository
 Requires:       python-testscenarios
@@ -58,6 +50,17 @@ Requires:       ansible >= 2
 
 %description -n openstack-tripleo-validations-tests
 This package contains the tripleo-validations test files.
+
+%if 0%{?with_doc}
+%package doc
+Summary:          Documentation for OpenStack Tripleo Validations
+
+BuildRequires:    python-sphinx
+BuildRequires:    python-oslo-sphinx
+
+%description      doc
+This package contains the tripleo-validations Documentation files.
+%endif
 
 %prep
 %autosetup -n %{upstream_name}-%{upstream_version} -S git
@@ -73,13 +76,13 @@ rm -rf {test-,}requirements.txt
 %{__python2} setup.py install -O1 --skip-build --root=%{buildroot}
 
 # docs generation
-# FIXME(mandre) HTML doc produces too many files due to static assets. We need
-# a doc subpackage.
 export PYTHONPATH="$( pwd ):$PYTHONPATH"
 %if 0%{?with_doc}
 SPHINX_DEBUG=1 sphinx-build -b html doc/source doc/build/html
 # Fix hidden-file-or-dir warnings
 rm -fr doc/build/html/.doctrees doc/build/html/.buildinfo
+# Remove zero-length files
+find doc/build/html -size 0 -delete
 %endif
 
 %check
@@ -88,14 +91,20 @@ rm -fr doc/build/html/.doctrees doc/build/html/.buildinfo
 %files
 %license LICENSE
 %doc README.rst AUTHORS ChangeLog
-%doc doc/build/html
-%{python2_sitelib}/tripleo_validations*
-%{python2_sitelib}/*-*.egg-info
+%{python2_sitelib}/tripleo_validations
+%{python2_sitelib}/tripleo_validations-*.egg-info
 %{_datadir}/%{name}
+%{_bindir}/tripleo-ansible-inventory
 %exclude %{python2_sitelib}/tripleo_validations/test*
 
 %files -n openstack-tripleo-validations-tests
 %license LICENSE
 %{python2_sitelib}/tripleo_validations/tests
+
+%if 0%{?with_doc}
+%files doc
+%license LICENSE
+%doc doc/build/html
+%endif
 
 %changelog
