@@ -19,9 +19,6 @@ Requires:       ansible >= 2
 Requires:       python-pbr
 Requires:       python-setuptools
 
-Provides:  tripleo-validations = %{version}-%{release}
-Obsoletes: tripleo-validations < %{version}-%{release}
-
 %description
 A collection of Ansible playbooks to detect and report potential issues during
 TripleO deployments.
