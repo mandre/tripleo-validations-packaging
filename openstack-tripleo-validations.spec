@@ -69,9 +69,6 @@ rm -rf {test-,}requirements.txt
 %build
 %{__python2} setup.py build
 
-%install
-%{__python2} setup.py install -O1 --skip-build --root=%{buildroot}
-
 # docs generation
 export PYTHONPATH="$( pwd ):$PYTHONPATH"
 %if 0%{?with_doc}
@@ -81,6 +78,9 @@ rm -fr doc/build/html/.doctrees doc/build/html/.buildinfo
 # Remove zero-length files
 find doc/build/html -size 0 -delete
 %endif
+
+%install
+%{__python2} setup.py install -O1 --skip-build --root=%{buildroot}
 
 %check
 %{__python2} setup.py testr
